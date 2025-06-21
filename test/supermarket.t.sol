@@ -76,6 +76,7 @@ contract SupermarketTest is Test {
     }
 
     function testAddItemWithZeroQuantityReverts() public {
+        vm.expectRevert("Quantity must be greater than 0");
         supermarket.addItem("Salt", 50, 0);
     }
 
@@ -233,29 +234,33 @@ contract SupermarketTest is Test {
 
     function testGetAvailableItems() public {
         supermarket.addItem("Rice", 100, 10);
-        supermarket.addItem("Beans", 200, 0);
+        supermarket.addItem("Beans", 200, 3);
         supermarket.addItem("Yam", 300, 5);
 
         (uint256[] memory ids, string[] memory names, uint256[] memory prices, uint256[] memory stocks) =
             supermarket.getAvailableItems();
 
-        assertEq(ids.length, 2);
+        assertEq(ids.length, 3);
         assertEq(ids[0], 1);
-        assertEq(ids[1], 3);
+        assertEq(ids[1], 2);
+        assertEq(ids[2], 3);
 
         assertEq(names[0], "Rice");
-        assertEq(names[1], "Yam");
+        assertEq(names[1], "Beans");
+        assertEq(names[2], "Yam");
 
         assertEq(prices[0], 100);
-        assertEq(prices[1], 300);
+        assertEq(prices[1], 200);
+        assertEq(prices[2], 300);
 
         assertEq(stocks[0], 10);
-        assertEq(stocks[1], 5);
+         assertEq(stocks[1], 3);
+        assertEq(stocks[2], 5);
     }
 
     function testGetAvailableItemsReturnsEmptyIfNone() public {
         supermarket.addItem("Rice", 100, 10);
-        supermarket.addItem("Beans", 200, 0);
+        supermarket.addItem("Beans", 200, 3);
         supermarket.addItem("Yam", 300, 5);
 
         supermarket.changeItemStatus(1, false);

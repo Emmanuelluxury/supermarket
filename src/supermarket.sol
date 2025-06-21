@@ -68,7 +68,7 @@ contract Supermarket {
     // Function to add a new item to the supermarket
     function addItem(string memory _name, uint256 _price, uint256 _quantity) external onlyOwner {
         require(_price > 0, "Price must be greater than 0");
-        // require(_quantity > 0, "Quantity must be greater than 0");
+        require(_quantity > 0, "Quantity must be greater than 0");
 
         items[nextItemId] = Item({
             id: nextItemId,
