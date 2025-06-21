@@ -254,7 +254,7 @@ contract SupermarketTest is Test {
         assertEq(prices[2], 300);
 
         assertEq(stocks[0], 10);
-         assertEq(stocks[1], 3);
+        assertEq(stocks[1], 3);
         assertEq(stocks[2], 5);
     }
 
